@@ -12,10 +12,6 @@ Este é um projeto de CRUD (Create, Read, Update, Delete) para gerenciar colabor
 ## Instalação
 
 1. Clone o repositório:
-   ```sh
-   git clone https://github.com/seu-usuario/crud-node-colaboradores.git
-   cd crud-node-colaboradores
-   ```
 
 2. Instale as dependências:
 
