@@ -94,19 +94,19 @@ Params: id
 
 Estrutura do Projeto  
 src  
-       controller/  
-            CriarColaboradorController.ts  
-            ListarColaboradoresController.ts  
-            EditarColaboradorController.ts  
-            DeletarColaboradorController.ts  
-            UniqueColaboradorController.ts  
-       service/  
-            CriarColaboradorService.ts  
-            ListarColaboradoresService.ts  
-            EditarColaboradorService.ts  
-            DeletarColaboradorService.ts  
-            UniqueColaboradorService.ts  
-        prisma/  
-            index.ts  
-        routes.ts  
-        server.ts  
+&nbsp;controller/  
+&nbsp;&nbsp;CriarColaboradorController.ts  
+&nbsp;&nbsp;ListarColaboradoresController.ts  
+&nbsp;&nbsp;EditarColaboradorController.ts  
+&nbsp;&nbsp;DeletarColaboradorController.ts  
+&nbsp;&nbsp;UniqueColaboradorController.ts  
+&nbsp;service/  
+&nbsp;&nbsp;CriarColaboradorService.ts  
+&nbsp;&nbsp;ListarColaboradoresService.ts  
+&nbsp;&nbsp;EditarColaboradorService.ts  
+&nbsp;&nbsp;DeletarColaboradorService.ts  
+&nbsp;&nbsp;UniqueColaboradorService.ts  
+&nbsp;prisma/  
+&nbsp;&nbsp;index.ts  
+&nbsp;routes.ts  
+&nbsp;server.ts  
