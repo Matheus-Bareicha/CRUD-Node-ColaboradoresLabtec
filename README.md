@@ -47,11 +47,11 @@ npm run dev
 
 O servidor estará disponível em http://localhost:3001.
 
-Endpoints
-Criar Colaborador
-URL: /criar
-Método: POST
-Corpo da Requisição:
+Endpoints  
+Criar Colaborador  
+URL: /criar  
+Método: POST  
+Corpo da Requisição:  
 
 ```bash
 {
@@ -61,14 +61,14 @@ Corpo da Requisição:
   "email": "joao.silva@example.com"
 }
 ```
-Listar Colaboradores
-URL: /listar
-Método: GET
+Listar Colaboradores  
+URL: /listar  
+Método: GET  
 
-Editar Colaborador
-URL: /editar
-Método: PUT
-Corpo da Requisição:
+Editar Colaborador  
+URL: /editar  
+Método: PUT  
+Corpo da Requisição:  
 ```bash
 {
   "id": 1,
@@ -78,35 +78,35 @@ Corpo da Requisição:
   "email": "joao.silva@example.com"
 }
 ```
-Deletar Colaborador
-URL: /deletar
-Método: DELETE
-Corpo da Requisição:
+Deletar Colaborador  
+URL: /deletar  
+Método: DELETE  
+Corpo da Requisição:  
 ```bash
 {
   "id": 1
 }
 ```
-Unique Colaborador
-URL: /unique
-Método: GET
-Params: id
+Unique Colaborador  
+URL: /unique  
+Método: GET  
+Params: id  
 
-Estrutura do Projeto
+Estrutura do Projeto  
 src  
-    controller/  
-        CriarColaboradorController.ts  
-        ListarColaboradoresController.ts  
-        EditarColaboradorController.ts  
-        DeletarColaboradorController.ts  
-        UniqueColaboradorController.ts  
-    service/  
-        CriarColaboradorService.ts  
-        ListarColaboradoresService.ts  
-        EditarColaboradorService.ts  
-        DeletarColaboradorService.ts  
-        UniqueColaboradorService.ts  
-    prisma/  
-        index.ts  
-    routes.ts  
-    server.ts  
+       controller/  
+            CriarColaboradorController.ts  
+            ListarColaboradoresController.ts  
+            EditarColaboradorController.ts  
+            DeletarColaboradorController.ts  
+            UniqueColaboradorController.ts  
+       service/  
+            CriarColaboradorService.ts  
+            ListarColaboradoresService.ts  
+            EditarColaboradorService.ts  
+            DeletarColaboradorService.ts  
+            UniqueColaboradorService.ts  
+        prisma/  
+            index.ts  
+        routes.ts  
+        server.ts  
