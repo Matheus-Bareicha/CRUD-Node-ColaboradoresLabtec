@@ -13,7 +13,6 @@ Este é um projeto de CRUD (Create, Read, Update, Delete) para gerenciar colabor
 
 1. Clone o repositório:
 
-
 2. Instale as dependências:
 
 ```bash
