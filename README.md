@@ -92,7 +92,7 @@ URL: /unique
 Método: GET  
 Params: id  
 
-Estrutura do Projeto  
+Estrutura Inicial do Projeto  
 src  
 &nbsp;controller/  
 &nbsp;&nbsp;CriarColaboradorController.ts  
