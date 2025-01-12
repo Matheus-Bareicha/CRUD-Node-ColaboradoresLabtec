@@ -12,10 +12,7 @@ Este é um projeto de CRUD (Create, Read, Update, Delete) para gerenciar colabor
 ## Instalação
 
 1. Clone o repositório:
-   ```sh
-   git clone https://github.com/seu-usuario/crud-node-colaboradores.git
-   cd crud-node-colaboradores
-   ```
+
 
 2. Instale as dependências:
 
@@ -97,20 +94,20 @@ Método: GET
 Params: id
 
 Estrutura do Projeto
-src
-    controller/
-        CriarColaboradorController.ts
-        ListarColaboradoresController.ts
-        EditarColaboradorController.ts
-        DeletarColaboradorController.ts
-        UniqueColaboradorController.ts
-    service/
-        CriarColaboradorService.ts
-        ListarColaboradoresService.ts
-        EditarColaboradorService.ts
-        DeletarColaboradorService.ts
-        UniqueColaboradorService.ts
-    prisma/
-        index.ts
-    routes.ts
-    server.ts
+src  
+    controller/  
+        CriarColaboradorController.ts  
+        ListarColaboradoresController.ts  
+        EditarColaboradorController.ts  
+        DeletarColaboradorController.ts  
+        UniqueColaboradorController.ts  
+    service/  
+        CriarColaboradorService.ts  
+        ListarColaboradoresService.ts  
+        EditarColaboradorService.ts  
+        DeletarColaboradorService.ts  
+        UniqueColaboradorService.ts  
+    prisma/  
+        index.ts  
+    routes.ts  
+    server.ts  

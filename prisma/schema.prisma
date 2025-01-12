@@ -3,12 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "mysql" //Tipo de banco de dados
+  url      = env("DATABASE_URL") //URL do banco de dados (referenciando o arquivo .env)
 }
 
-model colaborador {
-  id              Int      @id @default(autoincrement())
+model colaborador { //Tabela
+//Campos da tabela - tipos - atributos 
+  id              Int      @id @default(autoincrement()) 
   nome            String   @db.VarChar(255)
   cpf             String   @unique(map: "cpf") @db.VarChar(11)
   data_nascimento DateTime @db.Date
