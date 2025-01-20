@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" //Tipo de banco de dados
+  url      = env("DATABASE_URL") //URL do banco de dados (referenciando o arquivo .env)
+}
+
+model colaborador { //Tabela
+//Campos da tabela - tipos - atributos 
+  id              Int         @id @default(autoincrement()) 
+  nome            String      @db.VarChar(255)
+  cpf             String      @unique(map: "cpf") @db.VarChar(11)
+  data_nascimento DateTime    @db.Date
+  email           String?     @unique(map: "email") @db.VarChar(255)
+  ecograna        Decimal     @default(0)
+  coleta          coleta[]
+  
+}
+
+model responsavel {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    cpf             String   @unique(map: "cpf") @db.VarChar(11)
+    data_nascimento DateTime @db.Date
+    email           String   @unique(map: "email") @db.VarChar(255)
+    senha           String   @db.VarChar(255)
+    central         central[]
+}
+
+model admin {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    cpf             String   @unique(map: "cpf") @db.VarChar(11)
+    data_nascimento DateTime @db.Date
+    email           String   @unique(map: "email") @db.VarChar(255)
+    senha           String   @db.VarChar(255)
+}
+
+model gestor {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    cpf             String   @unique(map: "cpf") @db.VarChar(11)
+    data_nascimento DateTime @db.Date
+    email           String   @unique(map: "email") @db.VarChar(255)
+    senha           String   @db.VarChar(255)
+    cidade          cidade[]
+
+}
+
+model cidade {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    gestor_id       Int
+    estado          String   @db.VarChar(255)
+    gestor          gestor @relation(fields: [gestor_id], references: [id])
+    central         central[]
+}
+
+model material {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    descricao       String   @db.VarChar(255)
+    quantidade      Decimal
+    medida          String   @db.VarChar(20)
+    valor           Decimal
+    coleta          coleta[]
+}
+
+model central {
+    id              Int      @id @default(autoincrement()) 
+    local          String   @db.VarChar(255)
+    responsavel_id  Int
+    cidade_id       Int
+    coleta         coleta[]
+    responsavel    responsavel @relation(fields: [responsavel_id], references: [id])
+    cidade         cidade @relation(fields: [cidade_id], references: [id])
+
+}
+
+model coleta {
+    id              Int      @id @default(autoincrement()) 
+    data_coleta     DateTime @db.Date
+    colaborador_id  Int
+    central_id      Int
+    material_id     Int
+    medida          Decimal
+    valor           Decimal
+    status          String
+    colaborador     colaborador @relation(fields: [colaborador_id], references: [id])
+    central         central @relation(fields: [central_id], references: [id])
+    material        material @relation(fields: [material_id], references: [id])
+}
