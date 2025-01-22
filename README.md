@@ -116,6 +116,7 @@ src
 Para criar um projeto node com typescript
 
 1.Crie e abra uma pasta para o projeto no terminal
+
 2.Digite os comandos
 ```bash
 npm init -y
@@ -129,6 +130,8 @@ npx prisma init
 
 ```
 3.Altere o arquivo tsconfig.json de acordo com sua preferencia ou necessidades do projeto
+
 4.Na raiz do projeto, crie a pasta src, e dentro dela as pastas controller, service e prisma, e os arquivos server.ts e routes.ts
+
 5.Comece a programar, se inspire nos codigos presentes nesse projeto se necessario
 
