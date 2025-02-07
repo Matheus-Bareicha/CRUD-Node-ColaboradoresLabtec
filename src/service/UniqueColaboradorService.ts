@@ -6,6 +6,7 @@ interface UniqueColaboradorProps { // Definindo a interface para a propriedade c
 
 export class UniqueColaboradorService { // Criando a classe para o serviço de colaborador único
     async execute({ id }: UniqueColaboradorProps) { // Criando um método para executar a lógica do serviço
+        id = Number(id); // Convertendo o id para número
         const colaborador = await prismaClient.colaborador.findFirst({ // Buscando o colaborador pelo id
             where: {
                 id

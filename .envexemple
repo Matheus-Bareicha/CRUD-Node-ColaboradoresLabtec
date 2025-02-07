@@ -1,2 +1,0 @@
-// URL do banco de dados seguindo o padrao mysql://user:password@host:port/database
-DATABASE_URL="mysql://user:password@host:port/database"

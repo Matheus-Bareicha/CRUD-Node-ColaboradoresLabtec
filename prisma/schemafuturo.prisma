@@ -7,16 +7,24 @@ datasource db {
   url      = env("DATABASE_URL") //URL do banco de dados (referenciando o arquivo .env)
 }
 
-model colaborador { //Tabela
-//Campos da tabela - tipos - atributos 
-  id              Int         @id @default(autoincrement()) 
-  nome            String      @db.VarChar(255)
-  cpf             String      @unique(map: "cpf") @db.VarChar(11)
-  data_nascimento DateTime    @db.Date
-  email           String?     @unique(map: "email") @db.VarChar(255)
-  ecograna        Decimal     @default(0)
-  coleta          coleta[]
-  
+model admin {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    cpf             String   @unique(map: "cpf") @db.VarChar(11)
+    data_nascimento DateTime @db.Date
+    email           String   @unique(map: "email") @db.VarChar(255)
+    senha           String   @db.VarChar(255)
+}
+
+model central {
+    id              Int      @id @default(autoincrement()) 
+    local          String   @db.VarChar(255)
+    responsavel_id  Int
+    cidade_id       Int
+    coleta         coleta[]
+    responsavel    responsavel @relation(fields: [responsavel_id], references: [id])
+    cidade         cidade @relation(fields: [cidade_id], references: [id])
+
 }
 
 model responsavel {
@@ -29,14 +37,15 @@ model responsavel {
     central         central[]
 }
 
-model admin {
+model cidade {
     id              Int      @id @default(autoincrement()) 
     nome            String   @db.VarChar(255)
-    cpf             String   @unique(map: "cpf") @db.VarChar(11)
-    data_nascimento DateTime @db.Date
-    email           String   @unique(map: "email") @db.VarChar(255)
-    senha           String   @db.VarChar(255)
+    gestor_id       Int
+    estado          String   @db.VarChar(255)
+    gestor          gestor @relation(fields: [gestor_id], references: [id])
+    central         central[]
 }
+
 
 model gestor {
     id              Int      @id @default(autoincrement()) 
@@ -49,13 +58,17 @@ model gestor {
 
 }
 
-model cidade {
-    id              Int      @id @default(autoincrement()) 
-    nome            String   @db.VarChar(255)
-    gestor_id       Int
-    estado          String   @db.VarChar(255)
-    gestor          gestor @relation(fields: [gestor_id], references: [id])
-    central         central[]
+
+model colaborador { //Tabela
+//Campos da tabela - tipos - atributos 
+  id              Int         @id @default(autoincrement()) 
+  nome            String      @db.VarChar(255)
+  cpf             String      @unique(map: "cpf") @db.VarChar(11)
+  data_nascimento DateTime    @db.Date
+  email           String?     @unique(map: "email") @db.VarChar(255)
+  ecograna        Decimal     @default(0)
+  coleta          coleta[]
+  
 }
 
 model material {
@@ -66,17 +79,6 @@ model material {
     medida          String   @db.VarChar(20)
     valor           Decimal
     coleta          coleta[]
-}
-
-model central {
-    id              Int      @id @default(autoincrement()) 
-    local          String   @db.VarChar(255)
-    responsavel_id  Int
-    cidade_id       Int
-    coleta         coleta[]
-    responsavel    responsavel @relation(fields: [responsavel_id], references: [id])
-    cidade         cidade @relation(fields: [cidade_id], references: [id])
-
 }
 
 model coleta {

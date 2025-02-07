@@ -3,7 +3,7 @@ import { UniqueColaboradorService } from "../service/UniqueColaboradorService"; 
 
 export class UniqueColaboradorController { // Criando a classe de controle do colaborador único
     async handle(req: Request, res: Response) { // Criando o método handle para lidar com as requisições
-        const { id } = req.params as unknown as { id: number }; // Pegando o id da requisição nos parâmetros
+        const { id } = req.query as unknown as { id: number }; // Pegando o id da requisição nos parâmetros
 
         const uniqueColaboradorService = new UniqueColaboradorService(); // Instanciando o serviço de colaborador único
 
