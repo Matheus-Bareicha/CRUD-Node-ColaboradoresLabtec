@@ -3,14 +3,117 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "mysql" //Tipo de banco de dados
+  url      = env("DATABASE_URL") //URL do banco de dados (referenciando o arquivo .env)
 }
 
-model colaborador {
-  id              Int      @id @unique @default(autoincrement())
-  nome            String   @db.VarChar(255)
-  cpf             String   @unique(map: "cpf") @db.VarChar(11)
-  data_nascimento DateTime @db.Date
-  email           String   @unique(map: "email") @db.VarChar(255)
+
+model user {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+}
+model admin {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    cpf             String   @unique(map: "cpf") @db.VarChar(11)
+    data_nascimento DateTime @db.Date
+    email           String   @unique(map: "email") @db.VarChar(255)
+    senha           String   @db.VarChar(255)
+}
+
+model responsavel {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    cpf             String   @unique(map: "cpf") @db.VarChar(11)
+    data_nascimento DateTime @db.Date
+    email           String   @unique(map: "email") @db.VarChar(255)
+    senha           String   @db.VarChar(255)
+    ponto         ponto[]
+}
+
+model gestor {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    cpf             String   @unique(map: "cpf") @db.VarChar(11)
+    data_nascimento DateTime @db.Date
+    email           String   @unique(map: "email") @db.VarChar(255)
+    senha           String   @db.VarChar(255)
+    regiao          regiao[]
+
+}
+
+model usuario {
+  id              Int         @id @default(autoincrement()) 
+  nome            String      @db.VarChar(255)
+  cpf             String      @unique(map: "cpf") @db.VarChar(11)
+  data_nascimento DateTime    @db.Date
+  email           String?     @unique(map: "email") @db.VarChar(255)
+  pixchave       String?     @db.VarChar(255)
+  pixtipo        String?     @db.VarChar(10)
+  ecograna        Decimal     @default(0)
+  coleta          coleta[]
+  
+}
+
+model cooperativa {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    cnpj            String   @unique(map: "cnpj") @db.VarChar(14)
+    email           String   @unique(map: "email") @db.VarChar(255)
+    senha           String   @db.VarChar(255)
+    endereco        String   @db.VarChar(255)
+    telefone        String   @db.VarChar(20)
+}
+
+model ponto {
+    id              Int      @id @default(autoincrement()) 
+    local          String   @db.VarChar(255)
+    responsavel_id  Int
+    regiao_id       Int
+    coleta         coleta[]
+    responsavel    responsavel @relation(fields: [responsavel_id], references: [id])
+    regiao         regiao @relation(fields: [regiao_id], references: [id])
+
+}
+
+
+
+model regiao {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    gestor_id       Int
+    estado          String   @db.VarChar(255)
+    gestor          gestor @relation(fields: [gestor_id], references: [id])
+    ponto         ponto[]
+}
+
+
+
+
+
+
+
+model residuo {
+    id              Int      @id @default(autoincrement()) 
+    nome            String   @db.VarChar(255)
+    descricao       String   @db.VarChar(255)
+    quantidade      Decimal
+    unidade          String   @db.VarChar(20)
+    coleta          coleta[]
+}
+
+model coleta {
+    id              Int      @id @default(autoincrement()) 
+    data_coleta     DateTime @db.Date @default (now())
+    usuario_id      Int
+    ponto_id        Int
+    residuo_id      Int
+    operador_id     Int
+    quantidade      Decimal
+    valor           Decimal
+    status          String
+    usuario     usuario @relation(fields: [usuario_id], references: [id])
+    ponto         ponto @relation(fields: [ponto_id], references: [id])
+    residuo        residuo @relation(fields: [residuo_id], references: [id])
 }
