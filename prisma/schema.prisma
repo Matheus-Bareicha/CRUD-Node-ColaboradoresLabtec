@@ -3,117 +3,186 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql" //Tipo de banco de dados
-  url      = env("DATABASE_URL") //URL do banco de dados (referenciando o arquivo .env)
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
-
 
 model user {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
+  id              Int           @id @default(autoincrement())
+  email           String?       @unique(map: "email") @db.VarChar(255)
+  cep             String?       @db.VarChar(8)
+  cpf             String?       @unique(map: "cpf") @db.VarChar(11)
+  data_nascimento DateTime      @db.Date
+  nome            String        @db.VarChar(255)
+  senha           String?       @db.VarChar(255)
+  telefone        String?       @db.VarChar(20)
+  ativo           Boolean       @default(true)
+  data_registro   DateTime
+  admin           admin[]
+  cooperativa     cooperativa[]
+  gestor          gestor[]
+  operador        operador[]
+  responsavel     responsavel[]
+  usuario         usuario[]
 }
+
 model admin {
-    id              Int      @id @default(autoincrement()) 
-    nome            String   @db.VarChar(255)
-    cpf             String   @unique(map: "cpf") @db.VarChar(11)
-    data_nascimento DateTime @db.Date
-    email           String   @unique(map: "email") @db.VarChar(255)
-    senha           String   @db.VarChar(255)
-}
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  ativo         Boolean  @default(true)
+  data_registro DateTime
+  user          user     @relation(fields: [user_id], references: [id])
 
-model responsavel {
-    id              Int      @id @default(autoincrement()) 
-    nome            String   @db.VarChar(255)
-    cpf             String   @unique(map: "cpf") @db.VarChar(11)
-    data_nascimento DateTime @db.Date
-    email           String   @unique(map: "email") @db.VarChar(255)
-    senha           String   @db.VarChar(255)
-    ponto         ponto[]
-}
-
-model gestor {
-    id              Int      @id @default(autoincrement()) 
-    nome            String   @db.VarChar(255)
-    cpf             String   @unique(map: "cpf") @db.VarChar(11)
-    data_nascimento DateTime @db.Date
-    email           String   @unique(map: "email") @db.VarChar(255)
-    senha           String   @db.VarChar(255)
-    regiao          regiao[]
-
-}
-
-model usuario {
-  id              Int         @id @default(autoincrement()) 
-  nome            String      @db.VarChar(255)
-  cpf             String      @unique(map: "cpf") @db.VarChar(11)
-  data_nascimento DateTime    @db.Date
-  email           String?     @unique(map: "email") @db.VarChar(255)
-  pixchave       String?     @db.VarChar(255)
-  pixtipo        String?     @db.VarChar(10)
-  ecograna        Decimal     @default(0)
-  coleta          coleta[]
-  
+  @@index([user_id], map: "admin_user_id_fkey")
 }
 
 model cooperativa {
-    id              Int      @id @default(autoincrement()) 
-    nome            String   @db.VarChar(255)
-    cnpj            String   @unique(map: "cnpj") @db.VarChar(14)
-    email           String   @unique(map: "email") @db.VarChar(255)
-    senha           String   @db.VarChar(255)
-    endereco        String   @db.VarChar(255)
-    telefone        String   @db.VarChar(20)
+  id            Int       @id @default(autoincrement())
+  cnpj          String    @unique(map: "cnpj") @db.VarChar(14)
+  endereco      String    @db.VarChar(255)
+  user_id       Int
+  ativo         Boolean   @default(true)
+  data_registro DateTime
+  user          user      @relation(fields: [user_id], references: [id])
+  entrega       entrega[]
+
+  @@index([user_id], map: "cooperativa_user_id_fkey")
+}
+
+model gestor {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  ativo         Boolean  @default(true)
+  data_registro DateTime
+  user          user     @relation(fields: [user_id], references: [id])
+  regiao        regiao[]
+
+  @@index([user_id], map: "gestor_user_id_fkey")
+}
+
+model responsavel {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  ativo         Boolean  @default(true)
+  data_registro DateTime
+  ponto         ponto[]
+  user          user     @relation(fields: [user_id], references: [id])
+
+  @@index([user_id], map: "responsavel_user_id_fkey")
+}
+
+model operador {
+  id              Int               @id @default(autoincrement())
+  user_id         Int
+  ativo           Boolean           @default(true)
+  data_registro   DateTime
+  coleta          coleta[]
+  user            user              @relation(fields: [user_id], references: [id])
+  operadorNoPonto operadorNoPonto[]
+
+  @@index([user_id], map: "operador_user_id_fkey")
+}
+
+model operadorNoPonto {
+  id            Int      @id @default(autoincrement())
+  operador_id   Int
+  ponto_id      Int
+  ativo         Boolean  @default(true)
+  data_registro DateTime
+  operador      operador @relation(fields: [operador_id], references: [id])
+  ponto         ponto    @relation(fields: [ponto_id], references: [id])
+
+  @@index([operador_id], map: "operadorNoPonto_operador_id_fkey")
+  @@index([ponto_id], map: "operadorNoPonto_ponto_id_fkey")
+}
+
+model usuario {
+  id            Int      @id @default(autoincrement())
+  pixchave      String?  @db.VarChar(255)
+  pixtipo       String?  @db.VarChar(10)
+  ecograna      Int      @default(0)
+  user_id       Int
+  ativo         Boolean  @default(true)
+  data_registro DateTime
+  coleta        coleta[]
+  user          user     @relation(fields: [user_id], references: [id])
+
+  @@index([user_id], map: "usuario_user_id_fkey")
 }
 
 model ponto {
-    id              Int      @id @default(autoincrement()) 
-    local          String   @db.VarChar(255)
-    responsavel_id  Int
-    regiao_id       Int
-    coleta         coleta[]
-    responsavel    responsavel @relation(fields: [responsavel_id], references: [id])
-    regiao         regiao @relation(fields: [regiao_id], references: [id])
+  id              Int               @id @default(autoincrement())
+  responsavel_id  Int
+  regiao_id       Int
+  endereco        String            @db.VarChar(255)
+  ativo           Boolean           @default(true)
+  data_registro   DateTime
+  coleta          coleta[]
+  operadorNoPonto operadorNoPonto[]
+  regiao          regiao            @relation(fields: [regiao_id], references: [id])
+  responsavel     responsavel       @relation(fields: [responsavel_id], references: [id])
 
+  @@index([regiao_id], map: "ponto_regiao_id_fkey")
+  @@index([responsavel_id], map: "ponto_responsavel_id_fkey")
 }
-
-
 
 model regiao {
-    id              Int      @id @default(autoincrement()) 
-    nome            String   @db.VarChar(255)
-    gestor_id       Int
-    estado          String   @db.VarChar(255)
-    gestor          gestor @relation(fields: [gestor_id], references: [id])
-    ponto         ponto[]
+  id            Int      @id @default(autoincrement())
+  nome          String   @db.VarChar(255)
+  gestor_id     Int
+  estado        String   @db.VarChar(255)
+  ativo         Boolean  @default(true)
+  data_registro DateTime
+  ponto         ponto[]
+  gestor        gestor   @relation(fields: [gestor_id], references: [id])
+
+  @@index([gestor_id], map: "regiao_gestor_id_fkey")
 }
 
-
-
-
-
-
-
 model residuo {
-    id              Int      @id @default(autoincrement()) 
-    nome            String   @db.VarChar(255)
-    descricao       String   @db.VarChar(255)
-    quantidade      Decimal
-    unidade          String   @db.VarChar(20)
-    coleta          coleta[]
+  id            Int      @id @default(autoincrement())
+  nome          String   @db.VarChar(255)
+  descricao     String   @db.VarChar(255)
+  quantidade    Decimal
+  unidade       String   @db.VarChar(20)
+  ativo         Boolean  @default(true)
+  data_registro DateTime
+  coleta        coleta[]
 }
 
 model coleta {
-    id              Int      @id @default(autoincrement()) 
-    data_coleta     DateTime @db.Date @default (now())
-    usuario_id      Int
-    ponto_id        Int
-    residuo_id      Int
-    operador_id     Int
-    quantidade      Decimal
-    valor           Decimal
-    status          String
-    usuario     usuario @relation(fields: [usuario_id], references: [id])
-    ponto         ponto @relation(fields: [ponto_id], references: [id])
-    residuo        residuo @relation(fields: [residuo_id], references: [id])
+  id          Int      @id @default(autoincrement())
+  data_coleta DateTime
+  valor       Decimal
+  status      String
+  operador_id Int
+  ponto_id    Int
+  quantidade  Decimal
+  residuo_id  Int
+  usuario_id  Int
+  entrega_id  Int
+  ativo       Boolean  @default(true)
+  entrega     entrega  @relation(fields: [entrega_id], references: [id])
+  operador    operador @relation(fields: [operador_id], references: [id])
+  ponto       ponto    @relation(fields: [ponto_id], references: [id])
+  residuo     residuo  @relation(fields: [residuo_id], references: [id])
+  usuario     usuario  @relation(fields: [usuario_id], references: [id])
+
+  @@index([entrega_id], map: "coleta_entrega_id_fkey")
+  @@index([operador_id], map: "coleta_operador_id_fkey")
+  @@index([ponto_id], map: "coleta_ponto_id_fkey")
+  @@index([residuo_id], map: "coleta_residuo_id_fkey")
+  @@index([usuario_id], map: "coleta_usuario_id_fkey")
+}
+
+model entrega {
+  id             Int         @id @default(autoincrement())
+  data_entrega   DateTime
+  cooperativa_id Int
+  valor          Decimal
+  ativo          Boolean     @default(true)
+  coleta         coleta[]
+  cooperativa    cooperativa @relation(fields: [cooperativa_id], references: [id])
+
+  @@index([cooperativa_id], map: "entrega_cooperativa_id_fkey")
 }
